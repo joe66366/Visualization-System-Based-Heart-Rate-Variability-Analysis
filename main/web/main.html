@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hrv analysis</title>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.slim.js"
+    integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
+    crossorigin="anonymous">
+    </script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>	
+    <script src="js/func.js"></script>
+    <script src="js/get_ecg.js"></script>
+    <script src="js/hrv.js"></script>
+	<script src="/eel.js"></script>
+	
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" href="main.html">General</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div id="plotly_div" class="card col-11"></div>
+			<div class="col-1">
+				<div class="row">
+					<button type="button" class="btn btn-success btn-sm" onclick="select(28800, true)">
+						choose file
+					</button>
+				</div>
+
+				<div class="row">
+					<select id="time" onchange="select(document.getElementById('time').value, false)" >
+						<option value=28800 selected="selected">12 分鐘</option>
+						<option value=36000>15 分鐘</option>
+						<option value=72000>30 分鐘</option>
+						<option value=144000>60 分鐘</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class= "col-11" style="background-color:#000000" id="analysis">
+				<div class="row pt-2">
+					<div class="col-12 card" style="background-color:#000000">
+						<div class="row align-items-center h-100" >
+							<div class="col-2 align-self-start">
+							<h4 style="color:#F8F8FF">TDF</h4>
+							</div>
+
+							<div class="col-2" style="color:#F8F8FF">
+							<span >mean_nni: </span>
+							<span id="mean_nni" >0.0</span>
+							<br/>
+							<span >sdnn: </span>
+							<span id="sdnn" >0.0</span>
+							<br/>
+							<span >sdsd: </span>
+							<span id="sdsd" >0.0</span>
+							<br/>
+							<span >nni_50: </span>
+							<span id="nni_50">0.0</span>
+							<br/>
+							</div>
+				
+							<div class="col-2" style="color:#F8F8FF">
+							<span >pnni_50: </span>
+							<span id="pnni_50" >0.0</span>
+							<br/>
+							<span >nni_20: </span>
+							<span id="nni_20" >0.0</span>
+							<br/>
+							<span >pnni_20: </span>
+							<span id="pnni_20" >0.0</span>
+							<br/>
+							<span >rmssd: </span>
+							<span id="rmssd">0.0</span>
+							<br/>
+							</div>
+							<div class="col-2" style="color:#F8F8FF">
+							<span >median_nni: </span>
+							<span id="median_nni" >0.0</span>
+							<br/>
+							<span >range_nni: </span>
+							<span id="range_nni" >0.0</span>
+							<br/>
+							<span >cvsd: </span>
+							<span id="cvsd" >0.0</span>
+							<br/>
+							<span >cvnni: </span>
+							<span id="cvnni">0.0</span>
+							<br/>
+							</div>
+							<div class="col-3" style="color:#F8F8FF">
+							<span >mean_hr: </span>
+							<span id="mean_hr" >0.0</span>
+							<br/>
+							<span >max_hr: </span>
+							<span id="max_hr" >0.0</span>
+							<br/>
+							<span >min_hr: </span>
+							<span id="min_hr" >0.0</span>
+							<br/>
+							<span >std_hr: </span>
+							<span id="std_hr">0.0</span>
+							<br/>
+							</div>	
+						</div>
+					</div>
+				</div>
+			
+				<div class="row py-5 ">
+					<div class="col-12 card" style="background-color:#000000">
+						<div class="row align-items-center h-100" >
+							<div class="col-2 align-self-start">
+								<h4 style="color:#F8F8FF">FDF</h4>
+							</div>
+							<div class="col-4" style="color:#F8F8FF">
+								<span >lf: </span>
+								<span id="lf" >0.0</span>
+								<br/>
+								<span >hf: </span>
+								<span id="hf" >0.0</span>
+								<br/>
+								<span >lf_hf_ratio: </span>
+								<span id="lf_hf_ratio" >0.0</span>
+								<br/>
+								<span >lfnu: </span>
+								<span id="lfnu">0.0</span>
+								<br/>
+							</div>	
+						
+							<div class="col-4" style="color:#F8F8FF">
+								<span >hfnu: </span>
+								<span id="hfnu" >0.0</span>
+								<br/>
+								<span >total_power: </span>
+								<span id="total_power" >0.0</span>
+								<br/>
+								<span >vlf: </span>
+								<span id="vlf" >0.0</span>
+								<br/>
+							</div>	
+						</div>
+					</div>
+				</div>
+
+				<div class="row pb-2">
+					<div class="col-12 card" style="background-color:#000000">
+						<div class="row align-items-center h-100" >
+							<div class="col-2 align-self-start">
+								<h4 style="color:#F8F8FF">NL</h4>
+							</div>
+							<div class="col-4" style="color:#F8F8FF">
+								<span >csi: </span>
+								<span id="csi" >0.0</span>
+								<br/>
+								<span >cvi: </span>
+								<span id="cvi" >0.0</span>
+								<br/>
+								<span >Modified_csi: </span>
+								<span id="Modified_csi" >0.0</span>
+								<br/>
+								<span >sampen: </span>
+								<span id="sampen" >0.0</span>
+								<br/>
+							</div>
+							<div class="col-4" style="color:#F8F8FF">
+								<span >sd1: </span>
+								<span id="sd1" >0.0</span>
+								<br/>
+								<span >sd2: </span>
+								<span id="sd2" >0.0</span>
+								<br/>
+								<span >ratio_sd2_sd1: </span>
+								<span id="ratio_sd2_sd1" >0.0</span>
+								<br/>
+							</div>			
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row pt-2" id="download">
+			<div class= "col-11" style="background-color:#EEEEEE" >
+				<div class="row ">
+					<div class="col-12 card" style="background-color:#EEEEEE">
+						<div class="row align-items-center h-100" >
+							<div class="col-3 ">
+								<h3 style="color:#000000">請輸入病歷號:</h4>
+							</div>
+							<div class="col-4">
+								<input type="text" id="patient" value="">
+							</div>
+							<div class="col-2">
+								<button type="button" class="btn btn-success btn-m" onclick="doDownload(document.getElementById('patient').value)">
+									下載csv
+								</button>
+							</div>
+							<div class="col-2">
+								<button type="button" class="btn btn-primary btn-m" onclick="doWrite(document.getElementById('patient').value)">
+									寫入csv
+								</button>
+							</div>
+						</div>
+					</div>
+                 
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<script>
+	document.getElementById("time").hidden = true;
+	document.getElementById("analysis").hidden = true;
+	document.getElementById("download").hidden =true;
+</script>
+</body>
+</html>
