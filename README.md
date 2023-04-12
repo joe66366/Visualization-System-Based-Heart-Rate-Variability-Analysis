@@ -11,6 +11,6 @@
 • 執行 app.py並放入含有 "II" 或 "L2"數據之EKG檔案，格式為.csv
 ### 系統畫面
 
-！[hrv01](https://github.com/joe66366/Visualization_System_Based_Heart-Rate-Variability_Analysis/blob/main/hrv01.png)
-！[hrv02](https://github.com/joe66366/Visualization_System_Based_Heart-Rate-Variability_Analysis/blob/main/hrv02.png)
-！[hrv03](https://github.com/joe66366/Visualization_System_Based_Heart-Rate-Variability_Analysis/blob/main/hrv03.png)
+![hrv01](https://github.com/joe66366/Visualization_System_Based_Heart-Rate-Variability_Analysis/blob/main/hrv01.png)
+![hrv02](https://github.com/joe66366/Visualization_System_Based_Heart-Rate-Variability_Analysis/blob/main/hrv02.png)
+![hrv03](https://github.com/joe66366/Visualization_System_Based_Heart-Rate-Variability_Analysis/blob/main/hrv03.png)
